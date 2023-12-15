@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatting Room</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+</head>
+
+<body class="bg-gray-900">
+    <h1 id="appname" class="text-3xl md:text-4xl lg:text-7xl mt-10 mx-2 mb-1 md:mb-3 text-clamp font-bold text-[#CCD6F6]">Chatting
+        Room App</h1>
+
+       
+
+<nav class="bg-white border-gray-200 dark:bg-gray-900 hidden" id="navbar">
+    <div class="w-full flex flex-wrap items-center justify-between mx-auto p-4">
+    <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
+        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">ChatApp</span>
+    </a>
+    <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <button type="button" id="logout-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">LogOut</button>
+        <button data-collapse-toggle="navbar-cta" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-cta" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+          </svg>
+      </button>
+    </div>
+    
+    </div>
+  </nav>
+    
+
+
+    <div id="step1" class="flex flex-col items-center justify-center h-screen">
+
+        <div class="grid grid-cols-2 items-center justify-center divide-x my-4 px-4" id="gender-box">
+            <div>
+                <img src="girl.png" class="mx-2" width="58px" alt="" id="girl">
+            </div>
+            <div>
+                <img src="man.png" class="mx-2" width="58px" alt="" id="man">
+            </div>
+        </div>
+
+        <div class="relative w-80 mb-4">
+            <input type="text" id="input-name"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Enter Your Name To Chat" required>
+        </div>
+
+        <a id="nm-sub"
+            class="inline-flex items-center py-2.5 px-3 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Login
+        </a>
+    </div>
+
+
+
+    
+    
+    
+    <div id="step2" class="hidden md:px-5 md:mx-5">
+        <!-- <form class=""> -->
+            
+
+<div class="w-full p-2 mb-2 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <h5 class=" text-3xl font-bold text-gray-900 dark:text-white" id="welcome"></h5>
+</div>
+
+            <div class="flex items-center">
+            <div class="relative w-full">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
+                    </svg>
+                </div>
+                <input type="text" id="message-value"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Step[2 ]" required>
+            </div>
+            <a id="send"
+                class="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Send
+                <span class="sr-only">Search</span>
+            </a>
+        </div>
+        <!-- </form> -->
+    </div>
+   
+
+    <div class="py-5 bottom-0" id="msgbox">
+        
+    </div>
+
+
+
+
+
+
+</body>
+
+
+<script>
+    const appname = document.querySelector('#appname');
+    const navbar = document.querySelector('#navbar');
+    const name_submit = document.querySelector('#nm-sub');
+    const gender_box = document.querySelector('#gender-box');
+    const girl = document.querySelector('#girl');
+    const man = document.querySelector('#man');
+    const send_btn = document.querySelector('#send');
+    const message_value = document.querySelector('#message-value');
+    const step1 = document.querySelector('#step1');
+    const step2 = document.querySelector('#step2');
+    const welcome = document.querySelector('#welcome');
+
+    const msgbox = document.querySelector('#msgbox');
+    const msd = document.querySelector('#msd');
+    const logout_btn = document.querySelector('#logout-btn');
+
+    var stompClient = null;
+    var genderv = 'a';
+    girl.addEventListener('click', () => {
+        genderv = 'g';
+        gender_box.classList.add('hidden');
+    })
+    man.addEventListener('click', () => {
+        genderv = 'b';
+        gender_box.classList.add('hidden');
+    })
+
+    function connect() {
+        let socket = new SockJS("/server1");
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log("connected" + frame);
+
+            stompClient.subscribe("/topic/return-to", function (response) {
+                let res = JSON.parse(response.body);
+                // console.log(res.name);
+                let div = document.createElement('div');
+                div.classList.add('bg-[#050708]', 'rounded-lg', 'p-2','my-2');
+                msgbox.prepend(div);
+                
+                let p1 = document.createElement('p');
+                p1.classList.add('text-gray-300', 'font-medium', 'text-sm', 'pl-1', 'py-2');
+                p1.innerHTML = res.name;
+                div.append(p1);
+
+
+                let div1 = document.createElement('div');
+                div1.classList.add('flex','items-center','gap-2');
+                div.append(div1);
+
+
+
+                let img = document.createElement('img');
+                img.classList.add('inline-block', 'w-10', 'h-10','rounded-full', 'ring-2', 'ring-gray-500');
+                if (res.gender == 'g') {
+                    img.src = 'girl.png';
+                } else if (res.gender == 'b') {
+                    img.src = 'man.png';
+                } else {
+                    img.src = 'user.png';
+                }
+                div1.append(img);
+
+                let p = document.createElement('p');
+                p.classList.add('bg-gray-200', 'text-gray-700', 'rounded-lg', 'py-2', 'px-4', 'inline-block','overflow-x-auto');
+                p.innerHTML = res.content;
+                div1.append(p);
+            });
+
+        })
+    }
+
+    name_submit.addEventListener('click', () => {
+        let name = document.querySelector('#input-name').value;
+        localStorage.setItem("name", name);
+
+
+        step1.classList.add('hidden');
+        step2.classList.remove('hidden');
+
+        appname.classList.add('hidden');
+        navbar.classList.remove('hidden');
+
+        welcome.innerHTML = 'Welcome, <b>' + localStorage.getItem("name") + '</b>';
+
+        connect();
+    });
+
+    send_btn.addEventListener('click', () => {
+        let json_obj = {
+            name: localStorage.getItem("name"),
+            content: message_value.value,
+            gender: genderv
+        }
+        stompClient.send("/app/message", {}, JSON.stringify(json_obj));
+    });
+
+    logout_btn.addEventListener('click',()=>{
+        localStorage.removeItem("name");
+        if(stompClient!==null){
+            stompClient.disconnect();
+        }
+        location.reload();
+    })
+
+
+</script>
+
+</html>
