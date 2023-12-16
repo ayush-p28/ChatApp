@@ -6,29 +6,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatting Room</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.2/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </head>
 
 <body class="bg-gray-900">
-    <h1 id="appname" class="text-3xl md:text-4xl lg:text-7xl mt-10 mx-2 mb-1 md:mb-3 text-clamp font-bold text-[#CCD6F6]">Chatting
-        Room App</h1>
 
-       
+    <div id="alert" class="hidden flex items-center p-4 mb-4 border-t-4 text-red-400 bg-gray-800 border-red-800"
+        role="alert">
+        <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+            viewBox="0 0 20 20">
+            <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+        </svg>
+        <div class="ms-3 text-sm font-medium">
+            Please Enter Your Name To Enter Chat Window.
+        </div>
+        <button type="button"
+            class="ms-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 bg-gray-800 text-red-400 hover:bg-gray-700"
+            data-dismiss-target="#alert-border-2" aria-label="Close">
+            <span class="sr-only">Dismiss</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+        </button>
+    </div>
 
-<nav class="bg-white border-gray-200 dark:bg-gray-900 hidden" id="navbar">
-    <div class="w-full flex flex-wrap items-center justify-between mx-auto p-4">
-    <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
-        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">ChatApp</span>
-    </a>
-    <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-        <button type="button" id="logout-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">LogOut</button>
+    <div id="appname" class="mt-10 mx-2 mb-1 md:mb-3">
+
+        <p class="md:mb-1 text-[#61f4d3] text-xs md:text-lg">Hii, welcome to</p>
+        <h1 class="text-3xl md:text-4xl lg:text-7xl text-clamp font-bold text-[#CCD6F6]">
+            Chatting
+            Room App</h1>
+            <p class="hidden md:block my-3 md:mb-9 text-slate-500">This is the real time <b class="text-[#61f4d3]">chat server</b>
+                web application. <br>
+                Just created to gain hands-onn on <b class="text-[#61f4d3]">Websocket + SpringBoot</b></p>
     </div>
-    
-    </div>
-  </nav>
-    
+
+
+
+    <nav class="border-gray-200 bg-gray-900 hidden" id="navbar">
+        <div class="w-full flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">ChatApp</span>
+            </a>
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <button type="button" id="logout-btn"
+                    class="text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 me-2 mb-2">
+                    <b class="mr-2">LogOut</b>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16"
+                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+                        <path
+                            d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z" />
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+
 
 
     <div id="step1" class="flex flex-col items-center justify-center mt-16 pt-16">
@@ -42,32 +83,37 @@
             </div>
         </div>
 
+
         <div class="relative w-80 mb-4">
             <input type="text" id="input-name"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Enter Your Name To Chat" required>
         </div>
 
-        <a id="nm-sub"
-            class="inline-flex items-center py-2.5 px-3 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Login
+        <a id="nm-sub" type="button"
+            class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm p-2.5 text-center">Login
+            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" class="inline-block"
+                viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+                <path fill="#ffffff"
+                    d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z" />
+            </svg>
         </a>
     </div>
 
 
 
-    
-    
-    
+
+
+
     <div id="step2" class="hidden md:px-5 md:mx-5">
         <!-- <form class=""> -->
-            
 
-<div class="w-full p-2 mb-2 border rounded-lg shadow sm:p-8 bg-gray-800 border-gray-700">
-    <h5 class=" text-3xl font-bold text-white" id="welcome"></h5>
-</div>
 
-            <div class="flex items-center">
+        <div class="w-full p-2 mb-2 border rounded-lg shadow sm:p-8 bg-gray-800 border-gray-700">
+            <h5 class=" text-3xl font-bold text-white" id="welcome"></h5>
+        </div>
+
+        <div class="flex items-center">
             <div class="relative w-full">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -80,18 +126,19 @@
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="enter messages" required>
             </div>
-            <a id="send"
-                class="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                Send
-                <span class="sr-only">Search</span>
+            <a id="send" type="button"
+                class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm p-2.5 text-center ms-2">
+                <span>SEND</span>
             </a>
+
+
         </div>
         <!-- </form> -->
     </div>
-   
+
 
     <div class="py-5 bottom-0" id="msgbox">
-        
+
     </div>
 
 
@@ -109,6 +156,7 @@
     const gender_box = document.querySelector('#gender-box');
     const girl = document.querySelector('#girl');
     const man = document.querySelector('#man');
+    const alert = document.querySelector('#alert');
     const send_btn = document.querySelector('#send');
     const message_value = document.querySelector('#message-value');
     const step1 = document.querySelector('#step1');
@@ -140,9 +188,9 @@
                 let res = JSON.parse(response.body);
                 // console.log(res.name);
                 let div = document.createElement('div');
-                div.classList.add('bg-[#050708]', 'rounded-lg', 'p-2','my-2');
+                div.classList.add('bg-[#050708]', 'rounded-lg', 'p-2', 'my-2');
                 msgbox.prepend(div);
-                
+
                 let p1 = document.createElement('p');
                 p1.classList.add('text-gray-300', 'font-medium', 'text-sm', 'pl-1', 'py-2');
                 p1.innerHTML = res.name;
@@ -150,13 +198,13 @@
 
 
                 let div1 = document.createElement('div');
-                div1.classList.add('flex','items-center','gap-2');
+                div1.classList.add('flex', 'items-center', 'gap-2');
                 div.append(div1);
 
 
 
                 let img = document.createElement('img');
-                img.classList.add('inline-block', 'w-10', 'h-10','rounded-full', 'ring-2', 'ring-gray-500');
+                img.classList.add('inline-block', 'w-10', 'h-10', 'rounded-full', 'ring-2', 'ring-gray-500');
                 if (res.gender == 'g') {
                     img.src = 'girl.png';
                 } else if (res.gender == 'b') {
@@ -167,7 +215,7 @@
                 div1.append(img);
 
                 let p = document.createElement('p');
-                p.classList.add('bg-gray-200', 'text-gray-700', 'rounded-lg', 'py-2', 'px-4', 'inline-block','overflow-x-auto');
+                p.classList.add('bg-gray-200', 'text-gray-700', 'rounded-lg', 'py-2', 'px-4', 'inline-block', 'overflow-x-auto');
                 p.innerHTML = res.content;
                 div1.append(p);
             });
@@ -177,18 +225,24 @@
 
     name_submit.addEventListener('click', () => {
         let name = document.querySelector('#input-name').value;
-        localStorage.setItem("name", name);
+        if (name != '') {
+            localStorage.setItem("name", name);
 
+            step1.classList.add('hidden');
+            step2.classList.remove('hidden');
 
-        step1.classList.add('hidden');
-        step2.classList.remove('hidden');
+            appname.classList.add('hidden');
+            navbar.classList.remove('hidden');
 
-        appname.classList.add('hidden');
-        navbar.classList.remove('hidden');
+            welcome.innerHTML = 'Hii, <b>' + localStorage.getItem("name") + '</b> 👋';
 
-        welcome.innerHTML = 'Welcome, <b>' + localStorage.getItem("name") + '</b>';
-
-        connect();
+            connect();
+        } else {
+            alert.classList.remove('hidden');
+            setTimeout(() => {
+                alert.classList.add('hidden');
+            }, 1000)
+        }
     });
 
     send_btn.addEventListener('click', () => {
@@ -197,12 +251,13 @@
             content: message_value.value,
             gender: genderv
         }
+        message_value.value = '';
         stompClient.send("/app/message", {}, JSON.stringify(json_obj));
     });
 
-    logout_btn.addEventListener('click',()=>{
+    logout_btn.addEventListener('click', () => {
         localStorage.removeItem("name");
-        if(stompClient!==null){
+        if (stompClient !== null) {
             stompClient.disconnect();
         }
         location.reload();
