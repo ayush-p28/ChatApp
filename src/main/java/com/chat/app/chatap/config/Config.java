@@ -6,6 +6,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+// configeing the websocket and providing the incoming and outgoing urls
 @Configuration
 @EnableWebSocketMessageBroker
 public class Config implements WebSocketMessageBrokerConfigurer {
@@ -19,6 +20,7 @@ public class Config implements WebSocketMessageBrokerConfigurer {
         WebSocketMessageBrokerConfigurer.super.configureMessageBroker(registry);
     }
 
+    // creating a url to make common pathway from API and frontend
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 
